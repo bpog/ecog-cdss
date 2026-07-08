@@ -1,0 +1,205 @@
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECOG Infinite</title>
+
+<style>
+
+/* ===== GLOBAL ===== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: white;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* SEARCH */
+.search-box {
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+/* ===== CATEGORY BUTTONS ===== */
+.categories {
+  text-align: center;
+  margin: 15px;
+}
+
+.categories button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #2a2a2a;
+  color: white;
+  cursor: pointer;
+}
+
+.categories button:hover {
+  background: #444;
+}
+
+/* ===== GRID ===== */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* ===== GAME CARD ===== */
+.game-link {
+  text-decoration: none;
+}
+
+.game-tile {
+  background: #1c1c1c;
+  border-radius: 12px;
+  width: 180px;
+  padding: 10px;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.game-tile:hover {
+  transform: scale(1.08);
+  background: #2a2a2a;
+  box-shadow: 0 0 15px rgba(255,255,255,0.15);
+}
+
+/* ===== IMAGE ===== */
+.game-icon {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* ===== TITLE ===== */
+.game-title {
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* ===== POPULAR ===== */
+.popular {
+  border: 2px solid red;
+}
+
+  
+</style>
+
+ 
+</style>
+
+<style>
+.game-icon {
+    width: 100%;
+    aspect-ratio: 1 / 1;   /* forces perfect square */
+    object-fit: cover;     /* fills square without stretching */
+    border-radius: 10px;   /* optional: matches your style */
+}
+</style>
+  
+  
+</head>
+
+<body>
+<!-- NAVIGATION BAR -->
+<style>
+.navbar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 10px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.nav-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+}
+</style>
+
+<div class="navbar">
+    <a href="nothing" class="nav-button">Bye Bye...</a>
+</div>
+
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="logo">ECOG Infinite</div>
+  <input type="text" id="search" class="search-box" placeholder="Search games...">
+</div>
+
+
+<!-- GAMES -->
+<div class="flex-container" id="gameContainer">
+
+
+<p> Hey guys, KingShedew here. <strong>ECOG: Infinite is discontinued.</strong> </p>
+<p style="text-align: center;">The reason behind this is because GitHub flagged the organization that all of the game assets were uploaded on, so now none of the games work. It was a fun ride but it's over.</p>
+  <p>R.I.P. ECOG: Infinite. 2/24/26-6/25/26. </p>
+  <p>Go to https://flashh-ks.vercel.app to see our new project!</p>
+  
+</div>
+
+<script>
+
+/* ===== SEARCH ===== */
+document.getElementById("search").addEventListener("keyup", function() {
+  let filter = this.value.toLowerCase();
+  let games = document.querySelectorAll(".game-link");
+
+  games.forEach(game => {
+    let title = game.innerText.toLowerCase();
+    game.style.display = title.includes(filter) ? "block" : "none";
+  });
+});
+
+/* ===== CATEGORY FILTER ===== */
+function filterGames(category) {
+  let games = document.querySelectorAll(".game-link");
+
+  games.forEach(game => {
+    if (category === "all") {
+      game.style.display = "block";
+    } else {
+      let cats = game.getAttribute("data-category");
+      game.style.display = cats.includes(category) ? "block" : "none";
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>
+
