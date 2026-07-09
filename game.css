@@ -1,0 +1,96 @@
+
+/* global */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: white;
+}
+
+/* navbar styleing */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #1a1a1a;
+  padding: 10px 20px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* search bar styling */
+.search-box {
+  padding: 6px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+}
+
+/* the category buttons up top */
+.categories {
+  text-align: center;
+  margin: 15px;
+}
+
+.categories button {
+  margin: 5px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #2a2a2a;
+  color: white;
+  cursor: pointer;
+}
+
+.categories button:hover {
+  background: #444;
+}
+
+/* the grid styling */
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+/* game card styling */
+.game-link {
+  text-decoration: none;
+}
+
+.game-tile {
+  background: #1c1c1c;
+  border-radius: 12px;
+  width: 180px;
+  padding: 10px;
+  text-align: center;
+  transition: 0.2s;
+}
+
+.game-tile:hover {
+  transform: scale(1.08);
+  background: #2a2a2a;
+  box-shadow: 0 0 15px rgba(255,255,255,0.15);
+}
+
+/* game icon styling */
+.game-icon {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* title styling */
+.game-title {
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* popular */
+.popular {
+  border: 2px solid red;
+}
