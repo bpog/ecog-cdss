@@ -7,7 +7,7 @@
 
 <style>
 
-/* ===== GLOBAL ===== */
+/* global */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -15,7 +15,7 @@ body {
   color: white;
 }
 
-/* ===== NAVBAR ===== */
+/* navbar styleing */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -29,7 +29,7 @@ body {
   font-weight: bold;
 }
 
-/* SEARCH */
+/* search bar styling */
 .search-box {
   padding: 6px;
   border-radius: 6px;
@@ -37,7 +37,7 @@ body {
   outline: none;
 }
 
-/* ===== CATEGORY BUTTONS ===== */
+/* the category buttons up top */
 .categories {
   text-align: center;
   margin: 15px;
@@ -57,7 +57,7 @@ body {
   background: #444;
 }
 
-/* ===== GRID ===== */
+/* the grid styling */
 .flex-container {
   display: flex;
   flex-wrap: wrap;
@@ -66,7 +66,7 @@ body {
   padding: 20px;
 }
 
-/* ===== GAME CARD ===== */
+/* game card styling */
 .game-link {
   text-decoration: none;
 }
@@ -86,19 +86,19 @@ body {
   box-shadow: 0 0 15px rgba(255,255,255,0.15);
 }
 
-/* ===== IMAGE ===== */
+/* game icon styling */
 .game-icon {
   width: 100%;
   border-radius: 10px;
 }
 
-/* ===== TITLE ===== */
+/* title styling */
 .game-title {
   font-size: 14px;
   margin-top: 8px;
 }
 
-/* ===== POPULAR ===== */
+/* popular */
 .popular {
   border: 2px solid red;
 }
@@ -113,7 +113,7 @@ body {
 .game-icon {
     width: 100%;
     aspect-ratio: 1 / 1;   /* forces perfect square */
-    object-fit: cover;     /* fills square without stretching */
+    object-fit: cover;     /* sadly it doesnt stretch >:( */
     border-radius: 10px;   /* optional: matches your style */
 }
 </style>
@@ -122,7 +122,7 @@ body {
 </head>
 
 <body>
-<!-- NAVIGATION BAR -->
+<!-- navbar styling again -->
 <style>
 .navbar {
     text-align: center;
@@ -157,14 +157,14 @@ body {
 </div>
 
 
-<!-- NAVBAR -->
+<!-- the real navbar -->
 <div class="navbar">
   <div class="logo">ECOG Infinite</div>
   <input type="text" id="search" class="search-box" placeholder="Search games...">
 </div>
 
 
-<!-- GAMES -->
+<!-- games -->
 <div class="flex-container" id="gameContainer">
 
 <a href="1v1.lol/1v1.LOL.html" class="game-link"><div class="game-tile popular"><img src="1v1.lol/1v1lol1.png" class="game-icon"><div class="game-title">1v1.LOL</div></div></a>
@@ -336,7 +336,7 @@ body {
 
 <script>
 
-/* ===== SEARCH ===== */
+/* the real search */
 document.getElementById("search").addEventListener("keyup", function() {
   let filter = this.value.toLowerCase();
   let games = document.querySelectorAll(".game-link");
@@ -347,7 +347,7 @@ document.getElementById("search").addEventListener("keyup", function() {
   });
 });
 
-/* ===== CATEGORY FILTER ===== */
+/* the category filter */
 function filterGames(category) {
   let games = document.querySelectorAll(".game-link");
 
