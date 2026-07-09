@@ -1,0 +1,83 @@
+.navbar {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.nav-button {
+    display: inline-block;
+    padding: 12px 20px;
+    margin: 10px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.nav-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #00f2fe, #4facfe);
+}
+
+.flash-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.flash-popup-box {
+  background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  padding: 40px;
+  width: 80%;
+  max-width: 600px;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+}
+
+.flash-title {
+  font-size: 60px;
+  margin: 0;
+  color: white;
+  text-shadow: 0 0 15px rgba(0,255,255,0.6);
+}
+
+.flash-desc {
+  font-size: 16px;
+  margin-top: 15px;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.flash-link {
+  color: #00c6ff;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.flash-button {
+  margin-top: 25px;
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #00c6ff, #0072ff);
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.flash-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0,198,255,0.4);
+}
