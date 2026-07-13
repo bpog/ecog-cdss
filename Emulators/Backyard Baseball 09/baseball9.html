@@ -83,9 +83,9 @@
         EJS_core = "nds";
         EJS_color = "#000000";
         EJS_startOnLoaded = true;
-        EJS_pathtodata = "https://cdn.jsdelivr.net/gh/KingShedew/ecog-18/";
+        EJS_pathtodata = "https://cdn.jsdelivr.net/gh/KingShedew/ecog-file2@main/emulator-encryption/";
         EJS_gameUrl =
-          "https://cdn.jsdelivr.net/gh/KingShedew/ecog-15@main/Backyard%20Baseball%20'09%20(USA).zip";
+          "https://cdn.jsdelivr.net/gh/ecog-bonus/ecog-15@main/Backyard%20Baseball%20'09%20(USA).zip";
         loadGame();
       }
       document
@@ -93,7 +93,7 @@
         .addEventListener("click", startGame);
       function loadGame() {
         var script = document.createElement("script");
-        script.src = "https://cdn.jsdelivr.net/gh/KingShedew/ecog-18@main/loader.js";
+        script.src = "https://cdn.jsdelivr.net/gh/KingShedew/ecog-file2@main/emulator-encryption/loader.js";
         document.body.appendChild(script);
         var script = document.createElement("script");
         script.src =
