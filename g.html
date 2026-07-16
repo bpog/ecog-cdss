@@ -127,9 +127,14 @@ body {
 <body>
 <!-- navbar styling again -->
 <style>
-.navbar {
-    text-align: center;
-    margin-bottom: 20px;
+.top-navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px auto;
+    width: 100%;
 }
 
 .nav-button {
@@ -159,7 +164,7 @@ body {
 
 
 <!-- the real navbar -->
-<div class="navbar">
+<div class="top-navbar">
   <div class="logo">Elite Composite Of Games</div>
   <input type="text" id="search" class="search-box" placeholder="Search games...">
 </div>
