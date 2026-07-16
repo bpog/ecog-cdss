@@ -1,29 +1,22 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
-<head>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-7L02W3ZMS5"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
 
-	gtag('config', 'G-7L02W3ZMS5');
-	</script>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5648726754785335"></script>
-<meta charset="utf-8"/>
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
-<title>GunSpin 0.1.4</title>
-<link href="https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-but-its-downloadable@main/TemplateData/favicon.ico" rel="shortcut icon"/>
-<link href="https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-but-its-downloadable@main/TemplateData/style.css" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-but-its-downloadable@main/TemplateData/UnityProgress.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-but-its-downloadable@main/Build/UnityLoader.js"></script>
-<script>
-      //var unityInstance = UnityLoader.instantiate("unityContainer", "https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-but-its-downloadable@main/Build/GunSpin%20WebGL%20FinalVersion.json", {onProgress: UnityProgress});
-	  window.gameInstance = UnityLoader.instantiate("unityContainer", "https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-but-its-downloadable@main/Build/GunSpin%20WebGL%20FinalVersion.json");
+<!-- Made into a single file by MTKSIKM (https://guns.lol/mtksikm) -->
+  
+  <head>
+    <base href="https://cdn.jsdelivr.net/gh/KingShedew/gun-spin-single-file@main/">
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>GunSpin</title>
+    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="stylesheet" href="TemplateData/style.css">
+    <script src="TemplateData/UnityProgress.js"></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script>
+      //var unityInstance = UnityLoader.instantiate("unityContainer", "Build/GunSpin WebGL FinalVersion.json", {onProgress: UnityProgress});
+	  window.gameInstance = UnityLoader.instantiate("unityContainer", "Build/GunSpin WebGL FinalVersion.json");
     </script>
-<style>
+	<style>
 		* { 
 			margin: 0; padding: 0; 
 		} 
@@ -46,16 +39,17 @@
 		display:none 
 		}
 	</style>
-
-</head>
-<body>
-<div class="webgl-content">
-<div id="unityContainer"></div>
-<div class="footer">
-<div class="webgl-logo"></div>
-<div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-<div class="title">GunSpin</div>
-</div>
-</div>
-</body>
+  </head>
+  <body style="overflow:hidden;">
+    <div class="webgl-content">
+      <div id="unityContainer"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
+        <div class="title">GunSpin</div>
+      </div>
+    </div>
+    <script src="js/analytics_ubg_v1_4.js"></script>
+    <script src="js/ubg235_client_v1_2.js"></script>
+  </body>
 </html>
