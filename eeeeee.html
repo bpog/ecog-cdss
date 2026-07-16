@@ -55,7 +55,7 @@ body::after {
 }
 
 /* ==========================
-   MAIN CONTAINER
+   main containter
 ========================== */
 .container {
     width: 90%;
@@ -72,7 +72,7 @@ body::after {
 }
 
 /* ==========================
-   TITLE
+   title
 ========================== */
 .title {
     font-size: 4rem;
@@ -85,7 +85,7 @@ body::after {
 }
 
 /* ==========================
-   DESCRIPTION
+   desc
 ========================== */
 .subtitle {
     font-size: 1.2rem;
@@ -97,7 +97,7 @@ body::after {
 }
 
 /* ==========================
-   BUTTON GRID
+   button grid yk
 ========================== */
 .button-grid {
     display: grid;
@@ -106,7 +106,7 @@ body::after {
 }
 
 /* ==========================
-   BUTTONS
+   buttos
 ========================== */
 .ecog-button {
     text-decoration: none;
@@ -126,7 +126,12 @@ body::after {
     background: linear-gradient(135deg,#00c6ff,#008cff);
     box-shadow:
         0 12px 30px rgba(0,160,255,0.5);
+   .extra-button {
+    grid-column: 1 / -1;
+    max-width: 320px;
+    justify-self: center;
 }
+
 
 .ecog-button span {
     display: block;
@@ -136,7 +141,7 @@ body::after {
 }
 
 /* ==========================
-   FOOTER
+   footer
 ========================== */
 .footer {
     margin-top: 40px;
@@ -184,7 +189,7 @@ body::after {
             <span>Experiments and AI projects</span>
         </a>
 
-        <a href="otherfiles.html" class="ecog-button">
+        <a href="otherfiles.html" class="ecog-button extra-button">
             📁 Extra Files
             <span>Miscellaneous projects and tools</span>
         </a>
