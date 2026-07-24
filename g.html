@@ -11,60 +11,94 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  background: radial-gradient(circle at top, #2b183d, #160b22, #09040f);
   color: white;
 }
 
-/* navbar styleing */
+/* navbar styling */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1a1a1a;
-  padding: 10px 20px;
+  padding: 14px 20px;
+  background: rgba(42,24,61,.78);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(220,180,255,.15);
 }
 
-
+/* logo */
 .logo {
   font-size: 22px;
   font-weight: bold;
+  background: linear-gradient(
+      90deg,
+      #f3e5ff,
+      #d8b4ff,
+      #b784ff,
+      #efe2ff
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* search bar styling */
 .search-box {
-  padding: 6px;
-  border-radius: 6px;
-  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(220,180,255,.18);
   outline: none;
+  background: rgba(255,255,255,.05);
+  color: white;
 }
 
-/* the category buttons up top */
+.search-box::placeholder {
+  color: #d7c2f2;
+}
+
+/* category buttons */
 .categories {
   text-align: center;
-  margin: 15px;
+  margin: 18px;
 }
 
 .categories button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  background: #2a2a2a;
-  color: white;
+  margin: 6px;
+  padding: 10px 15px;
+  border: 1px solid rgba(220,180,255,.18);
+  border-radius: 12px;
   cursor: pointer;
+
+  background: linear-gradient(
+      135deg,
+      #d7a9ff,
+      #a86cff
+  );
+
+  color: white;
+  font-weight: bold;
+
+  transition: .25s;
 }
 
 .categories button:hover {
-  background: #444;
+  transform: translateY(-2px) scale(1.05);
+
+  background: linear-gradient(
+      135deg,
+      #edd8ff,
+      #c892ff
+  );
+
+  box-shadow: 0 0 18px rgba(180,120,255,.45);
 }
 
-/* the grid styling */
+/* grid styling */
 .flex-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  gap: 22px;
+  padding: 25px;
 }
 
 /* game card styling */
@@ -73,37 +107,91 @@ body {
 }
 
 .game-tile {
-  background: #1c1c1c;
-  border-radius: 12px;
-  width: 180px;
+  width: 190px;
   padding: 10px;
   text-align: center;
-  transition: 0.2s;
+
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(220,180,255,.15);
+  border-radius: 16px;
+
+  backdrop-filter: blur(8px);
+
+  transition: .25s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* crystal glow */
+.game-tile::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+
+  width: 200%;
+  height: 200%;
+
+  background:
+      radial-gradient(
+          circle,
+          rgba(215,170,255,.22),
+          transparent 65%
+      );
+
+  transform: rotate(25deg);
+
+  opacity: 0;
+
+  transition: .3s;
+}
+
+.game-tile:hover::before {
+  opacity: 1;
 }
 
 .game-tile:hover {
-  transform: scale(1.08);
-  background: #2a2a2a;
-  box-shadow: 0 0 15px rgba(255,255,255,0.15);
+  transform: translateY(-6px) scale(1.05);
+
+  border-color: rgba(200,140,255,.45);
+
+  box-shadow:
+      0 0 24px rgba(170,110,255,.28),
+      0 0 40px rgba(130,70,220,.18);
 }
 
 /* game icon styling */
 .game-icon {
   width: 100%;
-  border-radius: 10px;
+  aspect-ratio: 1 / 1;
+
+  object-fit: fill;   /* stretches to fill the square */
+
+  border-radius: 12px;
+
+  border: 2px solid rgba(220,180,255,.12);
+
+  transition: .25s;
+}
+
+.game-tile:hover .game-icon {
+  border-color: rgba(235,210,255,.45);
 }
 
 /* title styling */
 .game-title {
   font-size: 14px;
-  margin-top: 8px;
+  font-weight: 600;
+  margin-top: 10px;
+  color: #efe5ff;
 }
 
 /* popular */
 .popular {
-  border: 2px solid red;
+  border: 1px solid #d59cff;
+  box-shadow: 0 0 18px rgba(210,140,255,.35);
 }
-
   
 </style>
 
@@ -134,18 +222,38 @@ body {
     display: inline-block;
     padding: 12px 20px;
     margin: 10px;
-    background: linear-gradient(45deg, #00c6ff, #0072ff);
+
+    background: linear-gradient(
+        135deg,
+        #d7a9ff,
+        #a86cff
+    );
+
     color: white;
     font-weight: bold;
     text-decoration: none;
-    border-radius: 10px;
-    transition: 0.2s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+    border-radius: 12px;
+    border: 1px solid rgba(235,210,255,.15);
+
+    transition: .25s;
+
+    box-shadow:
+        0 5px 18px rgba(120,70,190,.35);
 }
 
 .nav-button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #00f2fe, #4facfe);
+    transform: translateY(-3px) scale(1.05);
+
+    background: linear-gradient(
+        135deg,
+        #edd8ff,
+        #c892ff
+    );
+
+    box-shadow:
+        0 0 20px rgba(190,120,255,.45),
+        0 0 35px rgba(140,80,220,.25);
 }
 </style>
 
