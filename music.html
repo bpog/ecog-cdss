@@ -3,144 +3,289 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Elite Composite Of Games</title>
+<title>Opal - Video Game Music</title>
 
 <style>
 
-/* ===== GLOBAL ===== */
+/* global */
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background: #0f0f0f;
+  background: radial-gradient(circle at top, #213344, #111826, #080b10);
   color: white;
 }
 
-/* ===== NAVBAR ===== */
+/* navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: #1a1a1a;
-  padding: 10px 20px;
+  padding: 14px 20px;
+
+  background: rgba(28,38,55,.78);
+  backdrop-filter: blur(10px);
+
+  border-bottom: 1px solid rgba(210,235,255,.18);
 }
 
+/* logo */
 .logo {
   font-size: 22px;
   font-weight: bold;
+
+  background: linear-gradient(
+      90deg,
+      #ffffff,
+      #bde9ff,
+      #ffc8ea,
+      #d8c6ff,
+      #ffffff
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-/* SEARCH */
+/* search */
 .search-box {
-  padding: 6px;
-  border-radius: 6px;
-  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+
+  border: 1px solid rgba(210,235,255,.2);
+
+  background: rgba(255,255,255,.05);
+
+  color: white;
+
   outline: none;
 }
 
-/* ===== CATEGORY BUTTONS ===== */
+.search-box::placeholder {
+  color: #d9ebff;
+}
+
+/* category buttons */
 .categories {
   text-align: center;
-  margin: 15px;
+  margin: 18px;
 }
 
 .categories button {
-  margin: 5px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  background: #2a2a2a;
-  color: white;
+
+  margin: 6px;
+  padding: 10px 15px;
+
+  border-radius: 12px;
+
+  border: 1px solid rgba(255,255,255,.12);
+
   cursor: pointer;
+
+  font-weight: bold;
+
+  color: white;
+
+  background: linear-gradient(
+      135deg,
+      #b8e9ff,
+      #ffc4e6
+  );
+
+  transition: .25s;
 }
 
 .categories button:hover {
-  background: #444;
+
+  transform: translateY(-2px) scale(1.05);
+
+  background: linear-gradient(
+      135deg,
+      #e8f9ff,
+      #ffd8ef
+  );
+
+  box-shadow:
+      0 0 18px rgba(190,235,255,.45),
+      0 0 18px rgba(255,190,225,.25);
 }
 
-/* ===== GRID ===== */
+/* grid */
 .flex-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 20px;
-  padding: 20px;
+  gap: 22px;
+  padding: 25px;
 }
 
-/* ===== GAME CARD ===== */
+/* links */
 .game-link {
   text-decoration: none;
 }
 
+/* game tile */
 .game-tile {
-  background: #1c1c1c;
-  border-radius: 12px;
-  width: 180px;
+
+  width: 190px;
   padding: 10px;
+
   text-align: center;
-  transition: 0.2s;
+
+  background: rgba(255,255,255,.06);
+
+  border: 1px solid rgba(220,240,255,.15);
+
+  border-radius: 16px;
+
+  backdrop-filter: blur(10px);
+
+  transition: .25s ease;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* opal shimmer */
+.game-tile::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: -50%;
+  left: -50%;
+
+  width: 200%;
+  height: 200%;
+
+  background:
+      radial-gradient(circle,
+      rgba(190,235,255,.18),
+      rgba(255,205,235,.12),
+      transparent 70%);
+
+  transform: rotate(25deg);
+
+  opacity: 0;
+
+  transition: .3s;
+}
+
+.game-tile:hover::before {
+  opacity: 1;
 }
 
 .game-tile:hover {
-  transform: scale(1.08);
-  background: #2a2a2a;
-  box-shadow: 0 0 15px rgba(255,255,255,0.15);
+
+  transform: translateY(-6px) scale(1.05);
+
+  border-color: rgba(190,235,255,.35);
+
+  box-shadow:
+      0 0 25px rgba(180,225,255,.18),
+      0 0 35px rgba(255,195,230,.15);
 }
 
-/* ===== IMAGE ===== */
+/* images */
 .game-icon {
+
   width: 100%;
-  border-radius: 10px;
+
+  aspect-ratio: 1 / 1;
+
+  object-fit: fill;
+
+  border-radius: 12px;
+
+  border: 2px solid rgba(255,255,255,.1);
+
+  transition: .25s;
 }
 
-/* ===== TITLE ===== */
+.game-tile:hover .game-icon {
+  border-color: rgba(255,255,255,.35);
+}
+
+/* title */
 .game-title {
+
+  margin-top: 10px;
+
   font-size: 14px;
-  margin-top: 8px;
+
+  font-weight: 600;
+
+  color: #f6fbff;
 }
 
-/* ===== POPULAR ===== */
+/* popular */
+
 .popular {
-  border: 2px solid red;
+
+  border: 1px solid #ffc8ea;
+
+  box-shadow:
+      0 0 20px rgba(255,200,234,.35);
 }
 
-  .game-icon {
-    width: 100%;
-    aspect-ratio: 1 / 1;   /* forces perfect square */
-    object-fit: cover;     /* fills square without stretching */
-    border-radius: 10px;   /* optional: matches your style */
-}
 </style>
-
-  
 </head>
 
 <body>
 <!-- NAVIGATION BAR -->
 <style>
 .navbar {
+
     text-align: center;
+
     margin-bottom: 20px;
 }
 
 .nav-button {
+
     display: inline-block;
+
     padding: 12px 20px;
+
     margin: 10px;
-    background: linear-gradient(45deg, #00c6ff, #0072ff);
+
     color: white;
+
     font-weight: bold;
+
     text-decoration: none;
-    border-radius: 10px;
-    transition: 0.2s;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+
+    border-radius: 12px;
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    background: linear-gradient(
+        135deg,
+        #b8e9ff,
+        #ffc4e6
+    );
+
+    transition: .25s;
+
+    box-shadow:
+        0 5px 18px rgba(170,220,255,.22);
 }
 
 .nav-button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #00f2fe, #4facfe);
+
+    transform: translateY(-3px) scale(1.05);
+
+    background: linear-gradient(
+        135deg,
+        #ecfbff,
+        #ffddef
+    );
+
+    box-shadow:
+        0 0 18px rgba(190,235,255,.45),
+        0 0 22px rgba(255,200,235,.30);
 }
 </style>
-
 <div class="navbar">
     <a href="flash.html" class="nav-button">📸 Flash Games</a>
     <a href="g.html" class="nav-button">🎮 Games</a>
@@ -151,7 +296,7 @@ body {
 
 <!-- NAVBAR -->
 <div class="navbar">
-  <div class="logo">Elite Composite Of Games</div>
+  <div class="logo">Opal - Video Game Music</div>
   <input type="text" id="search" class="search-box" placeholder="Search games...">
 </div>
 
