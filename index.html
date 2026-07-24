@@ -7,148 +7,276 @@
 
 <style>
 /* ==========================
-   globe
+   global
 ========================== */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-body {
-    font-family: Arial, sans-serif;
+body{
+    font-family:Arial,sans-serif;
+
     background:
-        radial-gradient(circle at top, #1b2d52 0%, #0b1324 35%, #05070d 100%);
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow-x: hidden;
+        radial-gradient(circle at top,#2b183d 0%,#17253b 35%,#090910 100%);
+
+    color:white;
+
+    min-height:100vh;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    overflow-x:hidden;
 }
 
-/* glow */
-body::before {
-    content: "";
-    position: fixed;
-    width: 700px;
-    height: 700px;
-    background: rgba(0, 140, 255, 0.15);
-    filter: blur(140px);
-    border-radius: 50%;
-    top: -200px;
-    left: -150px;
-    pointer-events: none;
+/* gemstone glows */
+
+body::before{
+    content:"";
+    position:fixed;
+
+    width:700px;
+    height:700px;
+
+    background:rgba(190,140,255,.16);   /* Amethyst */
+
+    filter:blur(150px);
+
+    border-radius:50%;
+
+    top:-220px;
+    left:-180px;
+
+    pointer-events:none;
 }
 
-body::after {
-    content: "";
-    position: fixed;
-    width: 700px;
-    height: 700px;
-    background: rgba(0, 200, 255, 0.10);
-    filter: blur(140px);
-    border-radius: 50%;
-    bottom: -200px;
-    right: -150px;
-    pointer-events: none;
+body::after{
+    content:"";
+    position:fixed;
+
+    width:700px;
+    height:700px;
+
+    background:rgba(130,255,190,.12);   /* Malachite */
+
+    filter:blur(150px);
+
+    border-radius:50%;
+
+    bottom:-220px;
+    right:-180px;
+
+    pointer-events:none;
+}
+
+/* extra Opal glow */
+
+.container::before{
+
+    content:"";
+
+    position:absolute;
+
+    width:450px;
+    height:450px;
+
+    background:rgba(180,225,255,.10);
+
+    filter:blur(120px);
+
+    top:-100px;
+    right:-120px;
+
+    border-radius:50%;
+
+    pointer-events:none;
 }
 
 /* ==========================
-   main containter
+   container
 ========================== */
-.container {
-    width: 90%;
-    max-width: 950px;
-    text-align: center;
-    background: rgba(20, 25, 40, 0.82);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(0, 140, 255, 0.3);
-    border-radius: 28px;
-    padding: 60px;
+
+.container{
+
+    position:relative;
+
+    width:90%;
+    max-width:960px;
+
+    text-align:center;
+
+    padding:60px;
+
+    overflow:hidden;
+
+    border-radius:28px;
+
+    background:rgba(24,26,40,.82);
+
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.12);
+
     box-shadow:
-        0 0 40px rgba(0, 140, 255, 0.15),
-        0 0 80px rgba(0, 140, 255, 0.08);
+        0 0 40px rgba(180,140,255,.12),
+        0 0 50px rgba(180,225,255,.08),
+        0 0 60px rgba(120,255,180,.08);
 }
 
 /* ==========================
    title
 ========================== */
-.title {
-    font-size: 4rem;
-    font-weight: 900;
-    margin-bottom: 20px;
-    background: linear-gradient(45deg,#53b6ff,#00e1ff);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 25px rgba(0,150,255,0.3);
+
+.title{
+
+    font-size:4rem;
+
+    font-weight:900;
+
+    margin-bottom:22px;
+
+    background:linear-gradient(
+        90deg,
+        #d8b4ff,
+        #bfeaff,
+        #ffc9e8,
+        #86efac,
+        #d8b4ff
+    );
+
+    background-size:300%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    animation:gemFlow 8s linear infinite;
+}
+
+@keyframes gemFlow{
+
+    from{
+        background-position:0%;
+    }
+
+    to{
+        background-position:300%;
+    }
+
 }
 
 /* ==========================
-   desc
+   subtitle
 ========================== */
-.subtitle {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #d7e7ff;
-    max-width: 800px;
-    margin: auto;
-    margin-bottom: 50px;
+
+.subtitle{
+
+    font-size:1.2rem;
+
+    line-height:1.8;
+
+    color:#e7ebff;
+
+    max-width:800px;
+
+    margin:auto;
+
+    margin-bottom:50px;
 }
 
 /* ==========================
-   button grid yk
+   buttons
 ========================== */
-.button-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
-    gap: 22px;
+
+.button-grid{
+
+    display:grid;
+
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+
+    gap:22px;
 }
 
-/* ==========================
-   buttos
-========================== */
-.ecog-button {
-    text-decoration: none;
-    color: white;
-    padding: 22px;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border-radius: 18px;
-    background: linear-gradient(135deg,#009dff,#006eff);
-    transition: 0.25s;
+.ecog-button{
+
+    text-decoration:none;
+
+    color:white;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    font-size:1.15rem;
+
+    font-weight:bold;
+
+    transition:.25s;
+
+    backdrop-filter:blur(8px);
+
+    border:1px solid rgba(255,255,255,.10);
+
+    background:linear-gradient(
+        135deg,
+        rgba(215,170,255,.65),
+        rgba(185,230,255,.65)
+    );
+
     box-shadow:
-        0 8px 20px rgba(0,120,255,0.35);
+        0 8px 20px rgba(180,180,255,.15);
 }
 
-.ecog-button:hover {
-    transform: translateY(-5px) scale(1.05);
-    background: linear-gradient(135deg,#00c6ff,#008cff);
+.ecog-button:hover{
+
+    transform:translateY(-6px) scale(1.05);
+
+    background:linear-gradient(
+        135deg,
+        rgba(255,205,235,.85),
+        rgba(170,255,195,.80)
+    );
+
     box-shadow:
-        0 12px 30px rgba(0,160,255,0.5);
+        0 0 24px rgba(255,220,255,.20),
+        0 0 28px rgba(150,255,200,.15);
 }
 
+.ecog-button span{
 
-.ecog-button span {
-    display: block;
-    font-size: 0.95rem;
-    opacity: 0.8;
-    margin-top: 8px;
+    display:block;
+
+    margin-top:8px;
+
+    font-size:.92rem;
+
+    opacity:.82;
 }
 
-   .extra-button {
-    grid-column: 1 / -1;
-    max-width: 320px;
-    justify-self: center;
+.extra-button{
+
+    grid-column:1/-1;
+
+    justify-self:center;
+
+    max-width:320px;
 }
 
 /* ==========================
    footer
 ========================== */
-.footer {
-    margin-top: 40px;
-    color: #8ca8d6;
-    font-size: 0.9rem;
+
+.footer{
+
+    margin-top:40px;
+
+    color:#c9d8f0;
+
+    font-size:.9rem;
+
+    opacity:.8;
 }
 </style>
 </head>
