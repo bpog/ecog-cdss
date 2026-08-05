@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- This is a file by the Elite Composite Of Games-->
+<!-- All rights go to the owner of this game. -->
+<!-- For ECOG go to https://docs.google.com/document/d/1baSNjc2NsNII6bfuW-hWQX_JoapRp8_djr2fYlLDXjQ/ -->
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Custom Web Browser UI</title>
+	<!-- Load Tailwind CSS -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<style>
+		/* Custom styles for the responsive iframe */
+		.browser-frame {
+			height: calc(100vh - 12rem);
+			/* Full viewport height minus the control panel height */
+			min-height: 400px;
+		}
+
+		/* Style the inputs and buttons */
+		input[type="text"] {
+			transition: all 0.2s;
+		}
+
+		input[type="text"]:focus {
+			box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+			/* blue-500 shadow */
+		}
+	</style>
+</head>
+
+<body class="bg-gray-900 text-gray-100 font-sans p-4 h-screen overflow-hidden">
+
+	<div id="app" class="max-w-7xl mx-auto flex flex-col h-full">
+		<!-- Control Panel (The Main Console) -->
+		<div class="bg-gray-800 p-4 rounded-xl shadow-lg mb-4 flex flex-col space-y-3">
+
+			<!-- URL Navigation Section -->
+			<div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-center">
+				<label for="urlInput" class="text-sm font-medium w-full sm:w-auto">Direct Link:</label>
+				<input type="text" id="urlInput" placeholder="Enter URL (e.g., example.com)"
+                       class="flex-grow p-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none text-white">
+				<button id="goButton"
+                        class="w-full sm:w-24 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg shadow-md font-semibold text-white transition duration-200">
+                    GO
+                </button>
+			</div>
+
+			<div class="border-t border-gray-700 my-2"></div>
+
+			<!-- Custom Search Engine Section -->
+			<div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3 items-center">
+				<label for="searchInput" class="text-sm font-medium w-full sm:w-auto">Custom Search:</label>
+				<input type="text" id="searchInput" placeholder="Enter search query..."
+                       class="flex-grow p-2 bg-gray-700 border border-gray-600 rounded-lg text-sm focus:outline-none text-white">
+				<button id="searchButton"
+                        class="w-full sm:w-24 px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg shadow-md font-semibold text-white transition duration-200">
+                    Search
+                </button>
+			</div>
+		</div>
+
+		<!-- Browser Frame (The Viewport) -->
+		<div class="flex-grow bg-white rounded-xl shadow-inner overflow-hidden border-2 border-gray-700">
+			<iframe id="browserFrame" name="browserFrame" src="about:blank"
+				class="w-full h-full browser-frame border-none rounded-xl">
+			</iframe>
+		</div>
+
+		<!-- Status/Error Message -->
+		<div id="messageBox" class="text-center mt-2 p-2 text-sm text-yellow-400 bg-gray-800 rounded-lg hidden">
+			<!-- Messages appear here -->
+		</div>
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+            const urlInput = document.getElementById('urlInput');
+            const goButton = document.getElementById('goButton');
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const browserFrame = document.getElementById('browserFrame');
+            const messageBox = document.getElementById('messageBox');
+
+            // Set default frame content
+            browserFrame.onload = () => {
+                if (browserFrame.contentDocument.body.innerHTML === '') {
+                    browserFrame.contentDocument.body.innerHTML = 
+                        '<div style="padding: 20px; text-align: center; color: #374151; font-family: sans-serif;">' +
+                        '<h1>Welcome to the Coder Browser!</h1>' +
+                        '<p>Enter a URL (like google.com) or a search query above to begin your quest.</p>' +
+                        '</div>';
+                }
+            };
+            browserFrame.onload(); // Initialize content on load
+
+            // --- Utility Functions ---
+
+            const showMessage = (text, duration = 3000) => {
+                messageBox.textContent = text;
+                messageBox.classList.remove('hidden');
+                setTimeout(() => {
+                    messageBox.classList.add('hidden');
+                }, duration);
+            };
+
+            // Ensures the URL has a protocol
+            const formatUrl = (url) => {
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    return 'https://' + url;
+                }
+                return url;
+            };
+
+            // --- Event Handlers ---
+
+            const handleNavigation = () => {
+                const url = urlInput.value.trim();
+                if (url) {
+                    const finalUrl = formatUrl(url);
+                    browserFrame.src = finalUrl;
+                    showMessage(`Navigating to: ${finalUrl}`, 5000);
+                    
+                    // NOTE: Many major sites (like Google, YouTube, social media) prevent 
+                    // loading in iframes for security (X-Frame-Options/CSP).
+                    // If the frame stays blank, this is usually the reason!
+                } else {
+                    showMessage("You must enter a URL in the link spot!", 3000);
+                }
+            };
+
+            const handleSearch = () => {
+                const query = searchInput.value.trim();
+                if (query) {
+                    // Default search engine template (Google)
+                    const searchUrl = `https://www.google.com/search?igu=1&q=${encodeURIComponent(query)}`;
+                    browserFrame.src = searchUrl;
+                    showMessage(`Searching for: "${query}"`, 5000);
+                } else {
+                    showMessage("You must enter a query in the custom search spot!", 3000);
+                }
+            };
+
+            // Attach listeners
+            goButton.addEventListener('click', handleNavigation);
+            searchButton.addEventListener('click', handleSearch);
+
+            // Allow hitting Enter key in inputs
+            urlInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleNavigation();
+            });
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleSearch();
+            });
+        });
+	</script>
+</body>
+
+</html>
