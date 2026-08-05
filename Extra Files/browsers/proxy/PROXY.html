@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- This is a file by the Elite Composite Of Games-->
+<!-- All rights go to the owner of this game. -->
+<!-- For ECOG go to https://docs.google.com/document/d/1baSNjc2NsNII6bfuW-hWQX_JoapRp8_djr2fYlLDXjQ/ -->
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Tab Web Client & Proxy Tester</title>
+    <!-- Load Tailwind CSS for modern styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            transition: background-color 0.3s;
+        }
+        .card {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        /* Iframe style for the viewing window */
+        .content-frame {
+            width: 100%;
+            height: 100%; /* Fill the container */
+            border: none;
+            background-color: white;
+        }
+        .btn-submit {
+            transition: all 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #2563eb;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+        }
+        .loading-ring {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #fff;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Style for the active tab */
+        .tab-active {
+            background-color: white;
+            border-bottom-color: white;
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        /* Container for the iframe views */
+        #iframeContainer {
+            height: 500px;
+            border: 2px solid #3b82f6;
+            border-radius: 0 0 0.75rem 0.75rem;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            padding: 0;
+            margin-top: -1px; /* Overlap with tabs */
+        }
+        .tab-content {
+            display: none;
+            height: 100%;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* --- DARK THEME STYLES --- */
+        .dark-theme {
+            background-color: #1a202c; /* Dark background */
+            color: #e2e8f0; /* Light text */
+        }
+        .dark-theme .card {
+            background-color: #2d3748; /* Card background */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            border-color: #4a5568;
+        }
+        .dark-theme .text-gray-800 { color: #e2e8f0; }
+        .dark-theme .text-gray-600 { color: #cbd5e0; }
+        .dark-theme input, .dark-theme select, .dark-theme #searchResults {
+            background-color: #4a5568;
+            border-color: #6c798a;
+            color: #e2e8f0;
+        }
+        .dark-theme .tab-active {
+            background-color: #2d3748;
+            color: #90cdf4; /* Light blue */
+            border-color: #4a5568;
+        }
+        .dark-theme #tabBar {
+            background-color: #1a202c;
+            border-color: #4a5568;
+        }
+        .dark-theme .tab-item {
+            color: #cbd5e0;
+        }
+        .dark-theme .tab-item:hover {
+            background-color: #4a5568;
+        }
+        .dark-theme .modal-content {
+            background-color: #1a202c;
+        }
+        /* General Status Messages */
+        .dark-theme .status-success {
+            background-color: #102a43;
+            color: #90cdf4;
+        }
+        .dark-theme .status-error {
+            background-color: #4d0000;
+            color: #fc8181;
+        }
+        /* Toggle Switch Styling */
+        .toggle-switch {
+            width: 44px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+        .toggle-switch input { display: none; }
+        .toggle-slider {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            transform: translateX(20px);
+        }
+        input:checked + .toggle-switch {
+            background-color: #3b82f6;
+        }
+        
+    </style>
+</head>
+<body class="p-4 md:p-8 flex justify-center">
+
+    <div class="max-w-6xl w-full">
+        <!-- Header with Settings Button -->
+        <div class="flex justify-between items-center mb-6 border-b-4 border-blue-500 pb-2">
+            <h1 class="text-3xl font-extrabold text-gray-800">
+                🌐 Multi-Tab Browser & Proxy Tester
+            </h1>
+            <button id="settingsButton" 
+                    class="p-2 rounded-full text-gray-600 hover:bg-gray-200 transition duration-150">
+                <!-- Settings Icon (Cog) -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.09a24.363 24.363 0 0 1 4.814 0 24.363 24.363 0 0 1 4.814 0c1.026.153 1.954.542 2.766 1.139a.5.5 0 0 1 .154.551l-.73 3.65c-.15.75-.828 1.25-1.583 1.25H4.205c-.755 0-1.433-.5-1.583-1.25l-.73-3.65a.5.5 0 0 1 .154-.551c.812-.597 1.74-.986 2.766-1.139Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="m8.12 18 1.83-3.66m1.1 0 1.83 3.66M12 15h.008V15h-.008Z" />
+                </svg>
+            </button>
+        </div>
+
+        <p class="text-gray-600 mb-8">
+            Enter a URL to browse or a search query below. All links clicked inside the viewer will also be proxied and open a new tab.
+        </p>
+
+        <!-- Input and Proxy Selection Card -->
+        <div class="card bg-white p-6 rounded-xl mb-4 border border-gray-200 flex flex-col gap-4">
+            <!-- URL/Search Input and Buttons -->
+            <div class="flex gap-4">
+                <div class="flex-grow">
+                    <!-- CHANGED LABEL to reflect Bing search -->
+                    <label for="urlInput" class="block text-sm font-semibold text-gray-700 mb-1">URL or Search Query (Default: Bing)</label>
+                    <input type="text" id="urlInput" value="https://example.com" placeholder="Enter full URL (e.g., https://google.com) or a search term"
+                           class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-800">
+                </div>
+                
+                <!-- Search Button -->
+                <button id="searchButton" 
+                        class="btn-submit mt-auto w-1/4 max-w-[150px] px-6 py-2 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition focus:outline-none focus:ring-4 focus:ring-purple-500 focus:ring-opacity-50 flex items-center justify-center">
+                    <span id="searchButtonText">Search</span>
+                    <span id="searchLoadingIndicator" class="loading-ring ml-3 hidden"></span>
+                </button>
+
+                <!-- Open Tab Button -->
+                <button id="openTabButton" 
+                        class="btn-submit mt-auto w-1/4 max-w-[150px] px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50 flex items-center justify-center">
+                    <span id="buttonText">Open Tab</span>
+                    <span id="loadingIndicator" class="loading-ring ml-3 hidden"></span>
+                </button>
+            </div>
+            
+            <!-- Proxy Selector -->
+            <div class="w-full md:w-1/3">
+                <label for="proxyType" class="block text-sm font-semibold text-gray-700 mb-1">Proxy Type</label>
+                <select id="proxyType" class="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 bg-white">
+                    <option value="allorigins">1. AllOrigins Proxy (Recommended)</option>
+                    <option value="direct">2. Direct Fetch (Will fail for most sites)</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Tab Bar -->
+        <div id="tabBar" class="flex flex-wrap border-b border-gray-300 bg-gray-100 rounded-t-lg">
+            <!-- Tabs will be rendered here -->
+            <button id="newTabPlaceholder" onclick="openNewTab(document.getElementById('urlInput').value)"
+                    class="px-4 py-2 text-gray-500 hover:bg-gray-200 transition duration-150 ease-in-out">
+                + New Tab
+            </button>
+        </div>
+
+        <!-- Status Message Area for Browser/Proxy -->
+        <div id="statusMessage" class="mb-2 p-3 rounded-lg text-sm font-medium hidden"></div>
+
+        <!-- Content Viewer Container -->
+        <div id="iframeContainer">
+            <!-- Iframe content views will be dynamically added here -->
+            <div id="welcomeTabContent" class="tab-content active bg-white flex flex-col items-center justify-center p-10 h-full">
+                <h2 class="text-2xl font-bold text-gray-600 mb-4">Welcome!</h2>
+                <p class="text-gray-500">Enter a URL or search query above and click "Open Tab" or "Search" to begin.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="fixed inset-0 bg-gray-900 bg-opacity-75 hidden flex items-center justify-center z-50">
+        <div class="modal-content bg-white p-8 rounded-xl shadow-2xl w-full max-w-sm">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">Settings</h3>
+
+            <div class="flex items-center justify-between mb-4">
+                <label for="themeToggle" class="text-lg font-medium text-gray-700">Dark Theme</label>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            
+            <p class="text-xs text-gray-500 mt-6">Your theme choice is saved automatically.</p>
+
+            <button id="closeSettings" 
+                    class="mt-6 w-full px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript implementation -->
+    <script>
+        // --- DOM Elements ---
+        const body = document.body;
+        // Browser/Proxy Elements
+        const urlInput = document.getElementById("urlInput");
+        const proxyTypeSelect = document.getElementById("proxyType");
+        const openTabButton = document.getElementById("openTabButton");
+        const searchButton = document.getElementById("searchButton");
+        const buttonText = document.getElementById("buttonText");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        // New elements for Search button loading state
+        const searchButtonText = document.getElementById("searchButtonText");
+        const searchLoadingIndicator = document.getElementById("searchLoadingIndicator");
+
+        const tabBar = document.getElementById("tabBar");
+        const iframeContainer = document.getElementById("iframeContainer");
+        const statusMessage = document.getElementById("statusMessage");
+
+        // Settings Modal Elements
+        const settingsButton = document.getElementById('settingsButton');
+        const settingsModal = document.getElementById('settingsModal');
+        const closeSettings = document.getElementById('closeSettings');
+        const themeToggle = document.getElementById('themeToggle');
+
+
+        // --- State Management ---
+        let tabs = [];
+        let activeTabId = 'welcomeTab';
+        let tabCounter = 0;
+
+        // --- Proxy Configuration ---
+        const PROXY_CONFIG = {
+            allorigins: 'https://api.allorigins.win/raw?url='
+        };
+        
+        // --- Search Engine Configuration ---
+        // CHANGED: Switched to Bing search. Note: Bing may have stricter iframe policies than DuckDuckGo.
+        const SEARCH_URL_PREFIX = 'https://www.bing.com/search?q='; 
+        
+        // --- Universal Functions exposed to the Iframe ---
+        // This function is what the script injected into the iframe will call
+        window.handleIframeLinkClick = function(url, sourceTabId) {
+            console.log("Iframe link clicked:", url, "from tab:", sourceTabId);
+            
+            // Look up the source tab's proxy setting to ensure inheritance
+            const sourceTab = tabs.find(t => t.id === sourceTabId);
+            // Default to current selection if source tab isn't found (shouldn't happen)
+            const proxyToUse = sourceTab ? sourceTab.proxy : proxyTypeSelect.value;
+
+            // Open the intercepted URL in a new tab using the inherited proxy
+            openNewTab(url, proxyToUse);
+        };
+
+
+        // --- Theme Management Functions ---
+
+        function saveTheme(isDark) {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const isDark = savedTheme === 'dark';
+            
+            if (isDark) {
+                body.classList.add('dark-theme');
+                themeToggle.checked = true;
+                // Update settings button color for better visibility in dark mode
+                settingsButton.classList.remove('text-gray-600', 'hover:bg-gray-200');
+                settingsButton.classList.add('text-gray-300', 'hover:bg-gray-700');
+            } else {
+                body.classList.remove('dark-theme');
+                themeToggle.checked = false;
+                settingsButton.classList.add('text-gray-600', 'hover:bg-gray-200');
+                settingsButton.classList.remove('text-gray-300', 'hover:bg-gray-700');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = themeToggle.checked;
+            if (isDark) {
+                body.classList.add('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+            }
+            saveTheme(isDark);
+            loadTheme(); // Rerun to ensure settings button style is updated
+        }
+        
+        // --- Utility Functions ---
+
+        function displayStatus(message, isError = false) {
+            const targetElement = statusMessage;
+            targetElement.textContent = message;
+            targetElement.className = "mb-2 p-3 rounded-lg text-sm font-medium";
+            targetElement.classList.remove('hidden');
+
+            // Determine base classes
+            let successClasses = ['bg-green-100', 'text-green-800'];
+            let errorClasses = ['bg-red-100', 'text-red-800'];
+            
+            // Adjust classes based on error state and theme
+            if (isError) {
+                targetElement.classList.add(...errorClasses);
+                targetElement.classList.remove(...successClasses);
+            } else {
+                targetElement.classList.add(...successClasses);
+                targetElement.classList.remove(...errorClasses);
+            }
+
+            // Apply dark theme overrides
+            if (body.classList.contains('dark-theme')) {
+                if (isError) {
+                    targetElement.classList.add('status-error');
+                    targetElement.classList.remove(...errorClasses);
+                } else {
+                    targetElement.classList.add('status-success');
+                    targetElement.classList.remove(...errorClasses);
+                }
+            }
+        }
+        
+        function updateTabTitle(tabId, title) {
+            const tabButton = document.querySelector(`#tab-${tabId} .tab-title`);
+            if (tabButton) {
+                // Shorten title for display
+                tabButton.textContent = title.length > 20 ? title.substring(0, 17) + '...' : title;
+            }
+        }
+
+        function renderTabs() {
+            // Clear all existing tab elements except the New Tab placeholder
+            document.querySelectorAll('.tab-item').forEach(el => el.remove());
+
+            tabs.forEach(tab => {
+                const tabItem = document.createElement('div');
+                tabItem.id = `tab-${tab.id}`;
+                tabItem.className = `tab-item px-4 py-2 border-r border-gray-300 cursor-pointer flex items-center justify-between text-gray-700 transition duration-150 ease-in-out ${tab.id === activeTabId ? 'tab-active' : 'hover:bg-gray-200'}`;
+                tabItem.onclick = () => switchTab(tab.id);
+
+                tabItem.innerHTML = `
+                    <span class="tab-title mr-3">${tab.title}</span>
+                    <button class="text-gray-500 hover:text-red-600 text-sm focus:outline-none" onclick="event.stopPropagation(); closeTab('${tab.id}');">
+                        &times;
+                    </button>
+                `;
+
+                // Insert the new tab item before the 'New Tab' placeholder
+                tabBar.insertBefore(tabItem, document.getElementById('newTabPlaceholder'));
+            });
+
+            // Ensure the welcome tab is hidden if any real tab is active
+            document.getElementById('welcomeTabContent').classList.toggle('active', tabs.length === 0);
+            
+            // Re-apply dark theme classes if necessary after rendering tabs
+            if (body.classList.contains('dark-theme')) {
+                document.querySelectorAll('.tab-item').forEach(el => {
+                    el.classList.remove('text-gray-700', 'hover:bg-gray-200');
+                    el.classList.add('text-gray-300', 'hover:bg-gray-700', 'border-gray-600');
+                    if (el.id !== `tab-${activeTabId}`) {
+                        el.classList.remove('tab-active');
+                    }
+                });
+            }
+        }
+
+        function switchTab(id) {
+            if (activeTabId === id) return;
+
+            // Deactivate old content and tab
+            document.querySelector(`#tab-content-${activeTabId}`)?.classList.remove('active');
+            document.querySelector(`#tab-${activeTabId}`)?.classList.remove('tab-active');
+
+            // Activate new content and tab
+            activeTabId = id;
+            document.querySelector(`#tab-content-${activeTabId}`)?.classList.add('active');
+            
+            // Re-render to correctly apply active styles, especially in dark mode
+            renderTabs();
+        }
+
+        function closeTab(id) {
+            // Remove the tab state
+            tabs = tabs.filter(tab => tab.id !== id);
+            
+            // Remove the DOM elements
+            document.getElementById(`tab-${id}`)?.remove();
+            document.getElementById(`tab-content-${id}`)?.remove();
+
+            if (id === activeTabId) {
+                // If the closed tab was active, switch to the last remaining tab or the welcome screen
+                if (tabs.length > 0) {
+                    switchTab(tabs[tabs.length - 1].id);
+                } else {
+                    activeTabId = 'welcomeTab';
+                    document.getElementById('welcomeTabContent').classList.add('active');
+                    // Re-enable buttons if all tabs are closed
+                    openTabButton.disabled = false;
+                    searchButton.disabled = false;
+                    buttonText.textContent = "Open Tab";
+                    searchButtonText.textContent = "Search";
+                    loadingIndicator.classList.add('hidden');
+                    searchLoadingIndicator.classList.add('hidden');
+                    // Clear status message
+                    statusMessage.classList.add('hidden');
+                    
+                    renderTabs(); // Rerender to clear tab bar
+                }
+            }
+        }
+        
+        /**
+         * Converts a user search query into a proxied URL.
+         * If the input is already a valid URL, it is returned as is.
+         * Otherwise, it generates a search engine URL.
+         * @param {string} input 
+         * @returns {string} The full URL to fetch.
+         */
+        function getTargetUrl(input) {
+            let url = input.trim();
+            
+            // 1. Check if it looks like a complete URL
+            if (url.startsWith('http://') || url.startsWith('https://')) {
+                return url;
+            }
+            // 2. Check if it's a domain (e.g., example.com)
+            if (url.includes('.') && !url.includes(' ')) {
+                // Prepend 'https://' to domain-like input
+                return "https://" + url;
+            }
+            
+            // 3. Otherwise, treat it as a search query
+            const searchQuery = encodeURIComponent(url);
+            // Uses Bing search
+            return SEARCH_URL_PREFIX + searchQuery;
+        }
+
+        // --- Core Application Logic (Browser/Proxy) ---
+
+        function openNewTab(initialInput, proxyToUse = proxyTypeSelect.value) {
+            const urlToFetch = getTargetUrl(initialInput);
+            const proxyType = proxyToUse;
+            tabCounter++;
+            const newTabId = `tab${tabCounter}`;
+            const shortTitle = "Loading...";
+
+            // Add new tab to state
+            const newTab = {
+                id: newTabId,
+                url: urlToFetch,
+                title: shortTitle,
+                proxy: proxyType
+            };
+            tabs.push(newTab);
+            
+            // Create iframe container element
+            const tabContentDiv = document.createElement('div');
+            tabContentDiv.id = `tab-content-${newTabId}`;
+            tabContentDiv.className = 'tab-content';
+            tabContentDiv.innerHTML = `<iframe id="iframe-${newTabId}" class="content-frame" title="${urlToFetch}"></iframe>`;
+            
+            // Use prepend to ensure new content is visually above the welcome content
+            iframeContainer.prepend(tabContentDiv);
+
+            // Switch to the new tab and render the UI
+            switchTab(newTabId);
+            renderTabs();
+            
+            // Initiate Fetch
+            fetchContentLogic(urlToFetch, newTabId, proxyType);
+            
+            // Update the input field with the target URL for visual confirmation
+            urlInput.value = urlToFetch;
+        }
+
+        async function fetchContentLogic(urlToFetch, tabId, proxyType) {
+            const currentTab = tabs.find(t => t.id === tabId);
+            if (!currentTab) return; 
+
+            const isCurrentActiveTab = tabId === activeTabId;
+
+            // --- Set Loading State for active tab ---
+            if (isCurrentActiveTab) {
+                openTabButton.disabled = true;
+                searchButton.disabled = true;
+
+                // Determine which button triggered the load to show its loading indicator
+                const isSearch = urlToFetch.startsWith(SEARCH_URL_PREFIX); 
+
+                if (isSearch) {
+                    searchButtonText.textContent = "Searching...";
+                    searchLoadingIndicator.classList.remove('hidden');
+                } else {
+                    buttonText.textContent = "Loading...";
+                    loadingIndicator.classList.remove('hidden');
+                }
+
+                displayStatus(`Fetching content for ${urlToFetch} via ${proxyType}...`, false);
+            }
+
+            let proxyUrl;
+            if (proxyType === 'direct') {
+                proxyUrl = urlToFetch;
+            } else {
+                // Use selected CORS Proxy (AllOrigins)
+                proxyUrl = PROXY_CONFIG[proxyType] + encodeURIComponent(urlToFetch);
+            }
+
+            // Simple retry logic with exponential backoff (up to 3 times)
+            const MAX_RETRIES = 3;
+            let lastError = null;
+
+            try {
+                for (let i = 0; i < MAX_RETRIES; i++) {
+                    try {
+                        // 1. JavaScript fetches the content through the selected proxy
+                        console.log(`Fetching via ${proxyType} (Attempt ${i + 1}/${MAX_RETRIES}): ${proxyUrl}`);
+                        
+                        const response = await fetch(proxyUrl, {
+                            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                        });
+                        
+                        const iframe = document.getElementById(`iframe-${tabId}`);
+                        if (!iframe) return;
+
+                        if (response.ok) {
+                            // 2. Read the response content as plain text
+                            let content = await response.text();
+                            
+                            // --- INJECT: <base> tag, <script> for link interception, and tabId ---
+                            
+                            // 1. BASE TAG: Fixes relative asset paths (images, CSS, JS)
+                            const baseUrlTag = `<base href="${urlToFetch}">`;
+                            
+                            // 2. LINK INTERCEPTION SCRIPT (using JSON.stringify for safe escaping)
+                            const injectedScriptCode = `
+                                function interceptClick(e) {
+                                    let target = e.target;
+                                    // Walk up the DOM tree to find the <a> tag
+                                    while (target && target.tagName !== 'A') {
+                                        target = target.parentElement;
+                                    }
+                                    
+                                    if (target && target.tagName === 'A' && target.href) {
+                                        e.preventDefault(); // Stop the default navigation
+                                        
+                                        const absoluteUrl = target.href;
+
+                                        // Check if it's a standard web link
+                                        if (absoluteUrl.startsWith('http://') || absoluteUrl.startsWith('https://')) {
+                                            // Call parent function with URL AND the current tab's ID
+                                            if (window.parent.handleIframeLinkClick) {
+                                                window.parent.handleIframeLinkClick(absoluteUrl, '${tabId}');
+                                            }
+                                        }
+                                    }
+                                }
+                                // Attach the listener to the whole document inside the iframe
+                                document.addEventListener('click', interceptClick);
+                            `;
+                            
+                            // Use JSON.stringify to safely escape the code and remove surrounding quotes
+                            const escapedCode = JSON.stringify(injectedScriptCode).slice(1, -1);
+                            const injectionScript = `<script>${escapedCode}<\/script>`;
+
+                            // Inject the base tag and the script right after the opening <head> or <html> tag
+                            const headMatch = content.match(/<head>/i);
+                            const htmlMatch = content.match(/<html>/i);
+
+                            if (headMatch) {
+                                // Insert after <head>
+                                content = content.replace(/<head>/i, `<head>${baseUrlTag}${injectionScript}`);
+                            } else if (htmlMatch) {
+                                // Insert <head> and content after <html>
+                                content = content.replace(/<html>/i, `<html><head>${baseUrlTag}${injectionScript}</head>`);
+                            } else {
+                                // Fallback: prepend everything (less reliable for broken HTML)
+                                content = `<head>${baseUrlTag}${injectionScript}</head>` + content;
+                            }
+                            // --- END Injection ---
+
+
+                            // 3. Create a Data URL to render the content in the iframe
+                            const dataUrl = `data:text/html;charset=utf-8,${encodeURIComponent(content)}`;
+                            
+                            // Set iframe source
+                            iframe.src = dataUrl;
+                            
+                            // Attempt to extract and update the title after a short delay
+                            setTimeout(() => {
+                                 try {
+                                    // Fallback to URL if title is inaccessible
+                                    const newTitle = iframe.contentDocument?.title || urlToFetch;
+                                    currentTab.title = newTitle;
+                                    updateTabTitle(tabId, newTitle);
+                                } catch (e) {
+                                    currentTab.title = urlToFetch;
+                                    updateTabTitle(tabId, urlToFetch);
+                                }
+                            }, 500);
+
+                            if (isCurrentActiveTab) {
+                                displayStatus(`Success! Status: ${response.status} ${response.statusText}. Content loaded. Links are now proxied using the original tab's proxy setting.`, false);
+                            }
+                            return; // Exit function on success
+                            
+                        } else {
+                            // Handle non-2xx status codes (no retry for this)
+                            const errorText = await response.text();
+                            const title = `Error ${response.status}`;
+                            currentTab.title = title;
+                            updateTabTitle(tabId, title);
+
+                            // Show error inside the iframe
+                            const errorHtml = `<html><body><div style='padding:20px; font-family:sans-serif;'><h3>Error ${response.status}: ${response.statusText}</h3><p>Fetch failed for ${urlToFetch} via ${proxyType}.</p><p>Partial response content: ${errorText.substring(0, 100)}...</p></div></body></html>`;
+                            iframe.src = `data:text/html;charset=utf-8,${encodeURIComponent(errorHtml)}`;
+                            
+                            if (isCurrentActiveTab) {
+                                displayStatus(`Fetch Failed! Status: ${response.status} ${response.statusText}. See viewer for details.`, true);
+                            }
+                            // Since it was a successful connection to the proxy, but a bad response from the target, we don't retry.
+                            return; 
+                        }
+
+                    } catch (error) {
+                        lastError = error;
+                        // This catches network errors when connecting to the proxy service itself.
+                        if (i < MAX_RETRIES - 1) {
+                            // Wait for exponential backoff before retrying (1s, 2s, 4s)
+                            const delay = Math.pow(2, i) * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            continue; // Go to next loop iteration for retry
+                        } else {
+                            console.error(`Max retries reached. Last error:`, error);
+                        }
+                    }
+                }
+                
+                // --- Final Error Handling (If all retries fail) ---
+                const title = `Connection Failed`;
+                currentTab.title = title;
+                updateTabTitle(tabId, title);
+
+                const errorMessage = `Connection Error: Could not connect to the proxy service or target URL. Details: ${lastError ? lastError.message : 'Unknown network issue'}`;
+                
+                const iframe = document.getElementById(`iframe-${tabId}`);
+                if (iframe) {
+                    const errorHtml = `<html><body><div style='padding:20px; font-family:sans-serif;'><h3>Network Error</h3><p>${errorMessage}</p></div></body></html>`;
+                    iframe.src = `data:text/html;charset=utf-8,${encodeURIComponent(errorHtml)}`;
+                }
+
+                if (isCurrentActiveTab) {
+                    displayStatus(errorMessage, true);
+                }
+                renderTabs(); // Update to ensure active state is correct
+
+            } finally {
+                // --- RESET Loading State ---
+                if (isCurrentActiveTab) {
+                    openTabButton.disabled = false;
+                    searchButton.disabled = false;
+                    buttonText.textContent = "Open Tab";
+                    searchButtonText.textContent = "Search";
+                    loadingIndicator.classList.add('hidden');
+                    searchLoadingIndicator.classList.add('hidden');
+                }
+            }
+        }
+
+        // --- Event Handlers ---
+        
+        function handleOpenTab() {
+            const url = urlInput.value.trim();
+            if (!url) {
+                displayStatus("Please enter a URL to open.", true);
+                return;
+            }
+            // Opens tab using the currently selected proxy type
+            openNewTab(url, proxyTypeSelect.value);
+        }
+        
+        function handleSearch() {
+            const query = urlInput.value.trim();
+            if (!query) {
+                displayStatus("Please enter a search query.", true);
+                return;
+            }
+            // Opens tab using the currently selected proxy type
+            openNewTab(query, proxyTypeSelect.value);
+        }
+
+        // --- Initialization and Event Listeners ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Load theme immediately
+            loadTheme();
+
+            // Set up main event listeners
+            openTabButton.addEventListener('click', handleOpenTab);
+            searchButton.addEventListener('click', handleSearch);
+
+            // Handle Enter keypress in the input field as a search/open action
+            urlInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    // Decide whether to treat input as a direct URL or a search query
+                    const url = urlInput.value.trim();
+                    if (url.startsWith('http://') || url.startsWith('https://') || (url.includes('.') && !url.includes(' '))) {
+                        handleOpenTab();
+                    } else {
+                        handleSearch();
+                    }
+                }
+            });
+
+            // Settings Modal Listeners
+            settingsButton.addEventListener('click', () => settingsModal.classList.remove('hidden'));
+            closeSettings.addEventListener('click', () => settingsModal.classList.add('hidden'));
+            themeToggle.addEventListener('change', toggleTheme);
+
+            // Set up initial state (only the welcome tab is visible)
+            renderTabs();
+        });
+
+    </script>
+
+</body>
+</html>
