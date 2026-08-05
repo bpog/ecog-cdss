@@ -1,0 +1,75 @@
+<!doctype html><html><head></head><body><!DOCTYPE html>
+<html>
+
+
+<!-- This is a file by the Elite Composite Of Games--> 
+<!-- All rights go to the owner of this game. -->
+<!-- For ECOG go to https://docs.google.com/document/d/1baSNjc2NsNII6bfuW-hWQX_JoapRp8_djr2fYlLDXjQ/ -->
+
+
+
+
+<head>
+	<title>EZ Dubs Mini Browser</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+		}
+
+
+		#bar {
+			display: flex;
+			padding: 10px;
+			background: #eee;
+		}
+
+
+		#url {
+			flex: 1;
+			padding: 8px;
+			font-size: 16px;
+		}
+
+
+		#go {
+			padding: 8px 16px;
+		}
+
+
+		iframe {
+			width: 100%;
+			height: 95vh;
+			border: none;
+		}
+	</style>
+</head>
+
+
+<body>
+
+
+	<div id="bar">
+		<input type="text" id="url" placeholder="Enter URL here…">
+		<button id="go">Go</button>
+	</div>
+
+
+	<iframe id="view" src=""></iframe>
+
+
+	<script>
+		document.getElementById("go").onclick = function() {
+    let site = document.getElementById("url").value;
+    if (!site.startsWith("http")) {
+        site = "https://" + site;
+    }
+    document.getElementById("view").src = site;
+};
+	</script>
+
+
+</body>
+
+
+</html></body><html>
